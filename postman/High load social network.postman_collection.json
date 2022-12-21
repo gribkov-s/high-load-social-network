@@ -1,0 +1,727 @@
+{
+	"info": {
+		"_postman_id": "05de919f-b7e8-4b11-ba90-1ac0123ba034",
+		"name": "High load social network",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration user 1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"auth\":{\r\n        \"login\":\"iivanov\",\r\n        \"password\":\"12345\"\r\n    },\r\n    \"profile\":{\r\n        \"firstName\":\"Ivan\",\r\n        \"lastName\":\"Ivanov\",\r\n        \"age\":42,\r\n        \"gender\":\"M\",\r\n        \"city\":\"Moscow\",\r\n        \"interests\":[\"music\", \"football\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/registration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration user 2 wrong - incorrect auth data",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"auth\":{\r\n        \"login\":\"pp\",\r\n        \"password\":\"543\"\r\n    },\r\n    \"profile\":{\r\n        \"firstName\":\"peter\",\r\n        \"lastName\":\"petrov\",\r\n        \"age\":456,\r\n        \"gender\":\"male\",\r\n        \"city\":\"spb\",\r\n        \"interests\":[\"cinema\", \"hockey\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/registration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration user 2 wrong - incorrect profile data",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"auth\":{\r\n        \"login\":\"ppetrov\",\r\n        \"password\":\"54321\"\r\n    },\r\n    \"profile\":{\r\n        \"firstName\":\"peter\",\r\n        \"lastName\":\"petrov\",\r\n        \"age\":456,\r\n        \"gender\":\"male\",\r\n        \"city\":\"spb\",\r\n        \"interests\":[\"cinema\", \"hockey\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/registration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration user 2 right",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"auth\":{\r\n        \"login\":\"ppetrov\",\r\n        \"password\":\"54321\"\r\n    },\r\n    \"profile\":{\r\n        \"firstName\":\"Peter\",\r\n        \"lastName\":\"Petrov\",\r\n        \"age\":45,\r\n        \"gender\":\"M\",\r\n        \"city\":\"St Petersburg\",\r\n        \"interests\":[\"cinema\", \"hockey\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/registration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration user 3 wrong - login exists",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"auth\":{\r\n        \"login\":\"ppetrov\",\r\n        \"password\":\"54321\"\r\n    },\r\n    \"profile\":{\r\n        \"firstName\":\"Pavel\",\r\n        \"lastName\":\"Petrov\",\r\n        \"age\":37,\r\n        \"gender\":\"M\",\r\n        \"city\":\"Saratov\",\r\n        \"interests\":[]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/registration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get profile",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update profile",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"Ivan\",\r\n    \"lastName\":\"Ivanov\",\r\n    \"age\":43,\r\n    \"gender\":\"M\",\r\n    \"city\":\"Moscow\",\r\n    \"interests\":[\"music\", \"football\", \"chess\"]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password wrong",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password1\": \"123456\",\r\n    \"password2\": \"1234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile/change-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password right",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password1\": \"123456\",\r\n    \"password2\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile/change-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get profile another user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/ppetrov",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"ppetrov"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 1 follows user 2 right",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/ppetrov/follow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"ppetrov",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 1 follows user 2 wrong - friend exists",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/ppetrov/follow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"ppetrov",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 1 own friends",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/friends",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 2 friends",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/ppetrov/friends",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"ppetrov",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 2 unfollows user 1 right",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "54321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ppetrov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/iivanov/unfollow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"iivanov",
+						"unfollow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 2 unfollows user 1 wrong - friend not exists",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "54321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ppetrov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/iivanov/unfollow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"iivanov",
+						"unfollow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User 2 follows user 1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "54321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ppetrov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/iivanov/follow",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"iivanov",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user 1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "iivanov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user 2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "54321",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ppetrov",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/high-load/profile/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"high-load",
+						"profile",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
