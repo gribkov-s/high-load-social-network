@@ -14,8 +14,7 @@ trait UserAuthHeaders[R <: UserAuthService with UserAuthRepo] {
 
   type UserAuthHTask[T] = RIO[R, T]
 
-  private val unauthenticated =
-    IO.succeed(Left(AuthBadFormat))
+  private val unauthenticated = IO.succeed(Left(AuthBadFormat))
 
   def getToken(req: Request[UserAuthHTask]): UserAuthHTask[Either[Throwable, UserIdentity]] = {
 
@@ -37,23 +36,4 @@ trait UserAuthHeaders[R <: UserAuthService with UserAuthRepo] {
       tok.either
     }.getOrElse(unauthenticated)
   }
-
-  /*def getToken(req: Request[UserAuthHTask]): UserAuthHTask[Either[Throwable, AuthToken]] = {
-    val userNamePasswordOpt: Option[Array[String]] = {
-      for {
-        auth <- req.headers.get(Authorization).map(_.value)
-        asSplit = auth.split(" ")
-        if asSplit.size == 2
-      } yield asSplit
-    }
-    userNamePasswordOpt.map { asSplit =>
-      val login = UserLogin(asSplit(0))
-      val pwd = UserPassword(asSplit(1))
-      val authData = UserAuthDTO(login, pwd)
-      println(authData)
-      val tok =
-        UserAuthService.authenticate(authData)
-      tok.either
-    }.getOrElse(unauthenticated)
-  }*/
 }

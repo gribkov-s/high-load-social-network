@@ -2,8 +2,8 @@ package com.sgribkov.socialnetwork.http.api
 
 import com.sgribkov.socialnetwork.data.dto.UserRegDTO
 import com.sgribkov.socialnetwork.repository.userauth.UserAuthRepo
-import com.sgribkov.socialnetwork.repository.userfriendship.UserFriendshipRepo
 import com.sgribkov.socialnetwork.repository.userprofile.UserProfileRepo
+import com.sgribkov.socialnetwork.services.auth.UserAuthService
 import com.sgribkov.socialnetwork.services.user.UserService
 import io.circe.{Decoder, Encoder}
 import org.http4s.circe._
@@ -14,7 +14,10 @@ import zio.interop.catz.taskConcurrentInstance
 import zio.random.Random
 
 
-class UserRegAPI[R <: UserService with UserProfileRepo with UserAuthRepo with UserFriendshipRepo with Random] {
+class UserRegAPI[R <: UserService with
+                      UserProfileRepo with
+                      UserAuthRepo with
+                      Random] {
 
   type UserRegTask[A] =  RIO[R, A]
 

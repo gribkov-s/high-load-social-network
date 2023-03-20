@@ -2,21 +2,25 @@ package com.sgribkov.socialnetwork.http.api
 
 import zio.RIO
 import io.circe.{Decoder, Encoder}
-import org.http4s.{AuthedRoutes, EntityDecoder, EntityEncoder}
+import org.http4s.{AuthedRoutes, EntityDecoder, EntityEncoder, HttpRoutes}
 import org.http4s.circe._
 import zio.interop.catz.taskConcurrentInstance
 import org.http4s.dsl.Http4sDsl
 import com.sgribkov.socialnetwork.services.user.UserService
-import com.sgribkov.socialnetwork.data.dto.{PasswordChangeDTO, UserProfileDTO}
+import com.sgribkov.socialnetwork.data.dto.{PasswordChangeDTO, UserProfileDTO, UserRegDTO}
 import com.sgribkov.socialnetwork.data.entities.{UserIdentity, UserLogin}
 import com.sgribkov.socialnetwork.repository.userauth.UserAuthRepo
 import com.sgribkov.socialnetwork.repository.userfriendship.UserFriendshipRepo
 import com.sgribkov.socialnetwork.repository.userprofile.UserProfileRepo
-import com.sgribkov.socialnetwork.services.auth.UserAuthService
 import zio.random.Random
+import cats.implicits.toSemigroupKOps
 
 
-class UserAPI[R <: UserService with UserAuthService with UserProfileRepo with UserAuthRepo with UserFriendshipRepo with Random] {
+class UserAPI[R <: UserService with
+                   UserProfileRepo with
+                   UserAuthRepo with
+                   UserFriendshipRepo with
+                   Random] {
 
   type UserTask[A] =  RIO[R, A]
 

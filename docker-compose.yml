@@ -5,19 +5,26 @@ networks:
   hlsn-network:
       name: hlsn-network
 
+volumes:
+  mysqldb_s_0_data:
+  mysqldb_s_1_data:
+  mysqldb_s_2_data:
+  proxysql_data:
+
 services:
 
-  mysqldb:
+  mysqldb_s_0: &mysqldb_s
     image: mysql:8
-    container_name: mysqldb
-    restart: always
-    hostname: mysql
+    container_name: mysqldb_s_0
+    restart: unless-stopped
+    hostname: mysql_s_0
     volumes:
-      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysqldb_s_0_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - 3360:3306
     networks:
       - hlsn-network
+    command: mysqld --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: social_network
@@ -28,6 +35,39 @@ services:
       timeout: 20s
       retries: 10
 
+  mysqldb_s_1:
+    <<: *mysqldb_s
+    container_name: mysqldb_s_1
+    hostname: mysql_s_1
+    volumes:
+      - mysqldb_s_1_data:/var/lib/mysql
+    ports:
+      - 3361:3306
+
+  mysqldb_s_2:
+    <<: *mysqldb_s
+    container_name: mysqldb_s_2
+    hostname: mysql_s_2
+    volumes:
+      - mysqldb_s_2_data:/var/lib/mysql
+    ports:
+      - 3362:3306
+
+  proxy_sql:
+    image: proxysql/proxysql:2.4.7
+    restart: always
+    hostname: proxy_sql
+    volumes:
+      - proxysql_data:/var/lib/proxysql
+      - ./proxysql.cnf:/etc/proxysql.cnf
+    networks:
+      - hlsn-network
+    ports:
+      # Mysql Client Port
+      - 6033:6033
+      # Mysql Admin Port
+      - 6032:6032
+
   high-load-social-network-backend:
     build:
       context: .
@@ -36,7 +76,7 @@ services:
     container_name: high-load-social-network-backend
     restart: always
     depends_on:
-      - mysqldb
+      - proxy_sql
     ports:
       - "8080:8080"
     extra_hosts:
@@ -44,7 +84,7 @@ services:
     networks:
       - hlsn-network
     environment:
-      DB_URL: jdbc:mysql://mysqldb:3306/social_network?allowPublicKeyRetrieval=true&useSSL=false
+      DB_URL: jdbc:mysql://proxy_sql:6033/social_network?allowPublicKeyRetrieval=true&useSSL=false
       DB_USER: otus
       DB_PASSWORD: high_load
       HTTP_SERVER_HOST: 0.0.0.0
