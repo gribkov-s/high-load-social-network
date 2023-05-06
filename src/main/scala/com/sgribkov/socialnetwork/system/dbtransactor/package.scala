@@ -39,10 +39,10 @@ package object dbtransactor {
         transactor <- makeTransactor(config, connectEC, blockingEC)
       } yield transactor
 
-    val managedWithMigration: ZManaged[Has[DatabaseConfig] with Logging with Blocking, Throwable, Transactor[Task]] =
-      Migration.migrate.toManaged_ *> managed
+    val managedWithMigration: ZManaged[Has[DatabaseConfig] with Has[DbMigrations] with Logging with Blocking, Throwable, Transactor[Task]] =
+      Migrations.migrate.toManaged_ *> managed
 
-    val live: ZLayer[Has[DatabaseConfig] with Logging with Blocking, Throwable, DBTransactor] =
+    val live: ZLayer[Has[DatabaseConfig] with Has[DbMigrations] with Logging with Blocking, Throwable, DBTransactor] =
       ZLayer.fromManaged(managedWithMigration)
 
     val transactor: URIO[DBTransactor, Transactor[Task]] = ZIO.service

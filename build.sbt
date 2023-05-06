@@ -18,9 +18,11 @@ val zioInteropCats = "2.5.1.0"
 val zioLogging = "0.5.14"
 val logbackVersion = "1.2.3"
 
+
 libraryDependencies ++= Seq(
 
   "com.github.pureconfig" %% "pureconfig" % pureConfig,
+  //"org.scala-lang.modules" %% "scala-collection-contrib" % "0.2.2",
 
   "dev.zio" %% "zio-interop-cats" % zioInteropCats,
   "dev.zio" %% "zio-logging-slf4j" % zioLogging,
@@ -56,6 +58,9 @@ libraryDependencies ++= Seq(
   compilerPlugin("com.olegpy" %% "better-monadic-for" % betterMonadicFor),
   compilerPlugin(("org.typelevel" % "kind-projector" % kindProjector).cross(CrossVersion.full))
 )
+
+//val projectMainClass = "com.sgribkov.socialnetwork.Main"
+//mainClass in (Compile, run) := Some(projectMainClass)
 
 scalacOptions += "-Ymacro-annotations"
 

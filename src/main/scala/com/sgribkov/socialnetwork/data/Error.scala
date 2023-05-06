@@ -1,6 +1,8 @@
 package com.sgribkov.socialnetwork.data
 
 import com.sgribkov.socialnetwork.data.entities.UserLogin
+import com.sgribkov.socialnetwork.data.entities.dialog.DialogId
+
 import scala.util.control.NoStackTrace
 
 sealed trait Error extends Throwable with NoStackTrace
@@ -17,7 +19,7 @@ object Error {
     extends Throwable(s"Can not authenticate user with login ${userLogin.value}.") with Error
 
   final case object AuthBadFormat
-    extends Throwable(s"Bad format authentication.") with Error
+    extends Throwable(s"Bad authentication format.") with Error
 
   final case class UserAlreadyExists(userLogin: UserLogin)
     extends Throwable(s"User ${userLogin.value} already exists.") with Error
@@ -45,5 +47,8 @@ object Error {
   final case class DtoDataError(msg: String) extends Error {
     override def getMessage: String = msg
   }
+
+  final case class CanNotSaveMessage(dialogId: DialogId, sender: UserLogin)
+    extends Throwable(s"Can not save message id dialog ${dialogId.value} from ${sender.value}.") with Error
 
 }

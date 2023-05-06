@@ -13,8 +13,6 @@ import zio.Task
 
 final case class UserAuthDTO(login: UserLogin, password: UserPassword) { self =>
 
-  val e = new Throwable
-
   private def validate: ValidatedNec[String, UserAuthDTO] = (
     self.login.validate.toValidatedNec,
     self.password.validate.toValidatedNec
