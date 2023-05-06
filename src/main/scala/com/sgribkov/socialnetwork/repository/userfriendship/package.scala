@@ -11,12 +11,16 @@ package object userfriendship {
 
     trait Service {
       def getFriendsByLogin(login: UserLogin): Task[List[UserLogin]]
+      def getFriendsById(id: UserId): Task[List[UserId]]
       def insert(friendship: UserFriendship): Task[Boolean]
       def unfollow(id: UserId, friendId: UserId): Task[Boolean]
     }
 
     def getFriendsByLogin(login: UserLogin): RIO[UserFriendshipRepo, List[UserLogin]] =
       RIO.accessM(_.get.getFriendsByLogin(login))
+
+    def getFriendsById(id: UserId): RIO[UserFriendshipRepo, List[UserId]] =
+      RIO.accessM(_.get.getFriendsById(id))
 
     def insert(friendship: UserFriendship): RIO[UserFriendshipRepo, Boolean] =
       RIO.accessM(_.get.insert(friendship))

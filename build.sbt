@@ -17,6 +17,7 @@ val zio = "1.0.16"
 val zioInteropCats = "2.5.1.0"
 val zioLogging = "0.5.14"
 val logbackVersion = "1.2.3"
+val redis4cats = "0.14.0"
 
 
 libraryDependencies ++= Seq(
@@ -52,6 +53,10 @@ libraryDependencies ++= Seq(
   "org.tpolecat" %% "doobie-hikari" % doobie,
 
   "mysql" % "mysql-connector-java" % "8.0.17",
+
+  "dev.profunktor" %% "redis4cats-effects" % redis4cats,
+  "dev.profunktor" %% "redis4cats-streams" % redis4cats,
+  "dev.profunktor" %% "redis4cats-log4cats" % redis4cats,
 
   "org.typelevel" %% "jawn-parser" % jawn  % "test",
 

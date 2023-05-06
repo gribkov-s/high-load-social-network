@@ -1,7 +1,6 @@
 package com.sgribkov.socialnetwork.data.entities.dialog
 
 import java.sql.Timestamp
-
 import com.sgribkov.socialnetwork.data.dto.DialogMessageDTO
 import doobie.Read
 import doobie.implicits.javasql.TimestampMeta
@@ -49,7 +48,7 @@ object DialogMessage {
 
   type DialogMessageRec = (String, Int, String, Timestamp, String, String, Boolean, String)
 
-  implicit val userRead: Read[DialogMessage] = Read[DialogMessageRec].map {
+  implicit val dialogMsgRead: Read[DialogMessage] = Read[DialogMessageRec].map {
     case (msgId, vBucket, dId, msgTime, sndId, sndLogin, delivered, body) =>
       DialogMessage(
         DialogMsgId(msgId),

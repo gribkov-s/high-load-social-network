@@ -21,12 +21,16 @@ object Server extends UserAuthMiddleware {
 
   private val userRegRoutes = new UserRegAPI[AppEnvironment].routes
   private val userRoutes = new UserAPI[AppEnvironment].routes
+  private val friendshipRoutes = new UserFriendshipAPI[AppEnvironment].routes
   private val dialogRoutes = new UserDialogAPI[AppEnvironment].routes
+  private val postRoutes = new UserPostAPI[AppEnvironment].routes
 
   private val appRoutes =
     userRegRoutes <+>
       authMiddleware(userRoutes) <+>
-        authMiddleware(dialogRoutes)
+        authMiddleware(friendshipRoutes) <+>
+          authMiddleware(dialogRoutes) <+>
+            authMiddleware(postRoutes)
 
   private def httpApp(uri: String): HttpApp[ServerTask] =
     Router[ServerTask](uri -> appRoutes).orNotFound

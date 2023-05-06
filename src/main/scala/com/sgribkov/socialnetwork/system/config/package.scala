@@ -8,7 +8,12 @@ import zio.{Task, _}
 
 package object config {
 
-  type Config = Has[DatabaseConfig] with Has[HttpServerConfig] with Has[DbMigrations]
+  type Config =
+    Has[DatabaseConfig] with
+      Has[CacheConfig] with
+        Has[HttpServerConfig] with
+          Has[DbMigrations] with
+            Has[PostServiceConfig]
 
   object Config {
 
@@ -34,12 +39,20 @@ package object config {
     val live: ZLayer[Logging, Throwable, Config] = ZLayer.fromEffectMany(
       Task
         .effect(source.loadOrThrow[AppConfig])
-        .map(c => Has(c.database) ++ Has(c.server) ++ Has(c.migrations))
+        .map(c =>
+          Has(c.database)  ++
+            Has(c.cache) ++
+              Has(c.server) ++
+                Has(c.migrations) ++
+            Has(c.postService)
+        )
         .tapBoth(err => logEnv(err), c => log.info(s"Loaded configuration $c successfully."))
     )
 
     val dbConfig: URIO[Has[DatabaseConfig], DatabaseConfig] = ZIO.service
+    val cacheConfig: URIO[Has[CacheConfig], CacheConfig] = ZIO.service
     val httpServerConfig: URIO[Has[HttpServerConfig], HttpServerConfig] = ZIO.service
     val dbMigrations: URIO[Has[DbMigrations], DbMigrations] = ZIO.service
+    val postService: URIO[Has[PostServiceConfig], PostServiceConfig] = ZIO.service
   }
 }

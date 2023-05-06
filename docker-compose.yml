@@ -68,6 +68,22 @@ services:
       # Mysql Admin Port
       - 6032:6032
 
+  redis:
+    image: redis:6.2
+    hostname: redis
+    ports:
+      - "6379:6379"
+    #command: redis-server --save 20 1 --loglevel warning --requirepass high_load
+    networks:
+      - hlsn-network
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 30s
+      retries: 50
+
   high-load-social-network-backend:
     build:
       context: .
@@ -77,6 +93,7 @@ services:
     restart: always
     depends_on:
       - proxy_sql
+      - redis
     ports:
       - "8080:8080"
     extra_hosts:
@@ -89,3 +106,5 @@ services:
       DB_PASSWORD: high_load
       HTTP_SERVER_HOST: 0.0.0.0
       HTTP_SERVER_PORT: 8080
+      CACHE_URI: redis://redis:6379
+      POST_FEED_LENGTH: 1000
