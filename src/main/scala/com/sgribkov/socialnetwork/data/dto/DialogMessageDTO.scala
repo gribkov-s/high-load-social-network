@@ -1,7 +1,5 @@
 package com.sgribkov.socialnetwork.data.dto
 
-import java.sql.Timestamp
-
 import com.sgribkov.socialnetwork.data.entities.dialog.DialogMsgBody
 import com.sgribkov.socialnetwork.data.entities.UserLogin
 import io.circe.Codec

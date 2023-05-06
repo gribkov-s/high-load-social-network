@@ -1,7 +1,7 @@
 package com.sgribkov.socialnetwork.services.dialog.builder
 
 import cats.implicits._
-import com.sgribkov.socialnetwork.data.entities.{UserIdentity, UserLogin}
+import com.sgribkov.socialnetwork.data.entities.UserIdentity
 import com.sgribkov.socialnetwork.data.entities.dialog.{DialogId, DialogMessage}
 import com.sgribkov.socialnetwork.services.dialog.builder.DialogFlowBuilder.DialogClientFlow
 import com.sgribkov.socialnetwork.services.dialog.service._

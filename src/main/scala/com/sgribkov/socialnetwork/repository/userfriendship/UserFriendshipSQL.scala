@@ -13,14 +13,19 @@ import zio.interop.catz._
 
 class UserFriendshipSQL(trx: Transactor[Task]) extends UserFriendshipRepo.Service {
 
-  override def getFriendsByLogin(login: UserLogin): Task[List[UserLogin]] = {
-    println(login)
+  override def getFriendsByLogin(login: UserLogin): Task[List[UserLogin]] =
     Queries
       .getFriendsByLogin(login)
       .to[List]
       .transact(trx)
       .mapError(err => DatabaseError(err.getMessage))
-  }
+
+  override def getFriendsById(id: UserId): Task[List[UserId]] =
+    Queries
+      .getFriendsById(id)
+      .to[List]
+      .transact(trx)
+      .mapError(err => DatabaseError(err.getMessage))
 
   override def insert(friendship: UserFriendship): Task[Boolean] =
     Queries
@@ -57,6 +62,17 @@ object UserFriendshipSQL {
              FROM user_friendship
              WHERE friend_login = ${login.value}
            """.query[UserLogin]
+
+    def getFriendsById(id: UserId): Query0[UserId] =
+      sql"""
+             SELECT friend_id
+             FROM user_friendship
+             WHERE user_id = ${id.value}
+           UNION
+             SELECT user_id
+             FROM user_friendship
+             WHERE friend_id = ${id.value}
+           """.query[UserId]
 
     def insert(friendship: UserFriendship): Update0 =
       sql"""
